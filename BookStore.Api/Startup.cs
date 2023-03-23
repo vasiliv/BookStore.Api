@@ -29,7 +29,7 @@ namespace BookStore.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer("Server=(LocalDB)\\MSSQLLocalDB;Database=BookStoreApi;Trusted_Connection=True;MultipleActiveResultSets=True"));
+            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BookStoreDB")));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
