@@ -25,5 +25,16 @@ namespace BookStore.Api.Repository
             }).ToListAsync();
             return records;
         }
+        public async Task<BookModel> GetBookByIdAsync(int bookId)
+        {
+            // Books - BookModel conversion. Later we substitute it with automapper
+            var record = await _context.Books.Where(x => x.Id == bookId).Select(x => new BookModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Description = x.Description
+            }).FirstOrDefaultAsync();
+            return record;
+        }
     }
 }
