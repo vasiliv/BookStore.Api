@@ -1,4 +1,5 @@
-﻿using BookStore.Api.Repository;
+﻿using BookStore.Api.Models;
+using BookStore.Api.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -29,6 +30,16 @@ namespace BookStore.Api.Controllers
                 return NotFound();
             }
             return Ok(book);
+        }
+        [HttpPost("")]
+        public async Task<IActionResult> AddNewBook([FromBody] BookModel bookModel)
+        {
+            var id = await _bookRepository.AddBookAsync(bookModel);
+            //we want to return 201
+            //1-st parameter - name of action method we want to call
+            //2-nd parameter - route values : id and [Route("api/[controller]")]
+            //3-rd parameter - return value
+            return CreatedAtAction(nameof(GetBookById), new {id = id, Controller = "Books"}, id);
         }
     }
 }

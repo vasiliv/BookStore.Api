@@ -36,5 +36,17 @@ namespace BookStore.Api.Repository
             }).FirstOrDefaultAsync();
             return record;
         }
+        public async Task<int> AddBookAsync(BookModel bookModel)
+        {
+            //id will be added by entity framework automatically
+            var book = new Book
+            {
+                Title = bookModel.Title,
+                Description = bookModel.Description
+            };
+            _context.Books.Add(book);
+            await _context.SaveChangesAsync();
+            return book.Id;
+        }
     }
 }
