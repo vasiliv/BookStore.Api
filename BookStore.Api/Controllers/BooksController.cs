@@ -41,5 +41,12 @@ namespace BookStore.Api.Controllers
             //3-rd parameter - return value
             return CreatedAtAction(nameof(GetBookById), new {id = id, Controller = "Books"}, id);
         }
+        //from route we get id, from body - the rest model
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBook([FromRoute] int id, [FromBody] BookModel bookModel)
+        {
+            await _bookRepository.UpdateBookAsync(id, bookModel);
+            return Ok();
+        }
     }
 }
