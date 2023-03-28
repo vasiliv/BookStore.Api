@@ -50,13 +50,23 @@ namespace BookStore.Api.Repository
         }
         public async Task UpdateBookAsync(int bookId, BookModel bookModel)
         {
+            /*hits db twice, where _context exists
             var book = await _context.Books.FindAsync(bookId);
             if (book != null)
             {
                 book.Title = bookModel.Title;
                 book.Description = bookModel.Description;
                 await _context.SaveChangesAsync();
-            }            
+            } */
+            //Second method - hits db once
+            var book = new Book
+            {
+                Id = bookId,
+                Title = bookModel.Title,
+                Description = bookModel.Description
+            };
+            _context.Books.Update(book);
+            await _context.SaveChangesAsync();
         }
     }
 }
