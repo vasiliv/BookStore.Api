@@ -1,6 +1,7 @@
 ﻿using BookStore.Api.Models;
 using BookStore.Api.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -46,6 +47,12 @@ namespace BookStore.Api.Controllers
         public async Task<IActionResult> UpdateBook([FromRoute] int id, [FromBody] BookModel bookModel)
         {
             await _bookRepository.UpdateBookAsync(id, bookModel);
+            return Ok();
+        }
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateBookPatch([FromRoute] int id, [FromBody] JsonPatchDocument bookModel)
+        {
+            await _bookRepository.UpdateBookPatchAsync(id, bookModel);
             return Ok();
         }
     }
