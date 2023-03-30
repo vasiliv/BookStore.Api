@@ -13,5 +13,6 @@ namespace BookStore.Api.Repository
         Task<int> AddBookAsync(BookModel bookModel);
         Task UpdateBookAsync(int bookId, BookModel bookModel);
         Task UpdateBookPatchAsync(int bookId, JsonPatchDocument bookModel);
+        Task<int> DeleteBookAsync(int bookId);
     }
 }
