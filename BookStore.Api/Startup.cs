@@ -1,8 +1,10 @@
 using BookStore.Api.Data;
+using BookStore.Api.Models;
 using BookStore.Api.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +32,15 @@ namespace BookStore.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BookStoreDB")));
+            //1-st arg - TUser, 2-nd arg -TRole
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                // AddEntityFrameworkStores is a method in the ASP.NET Core Identity framework
+                // that is used to configure Entity Framework as the storage mechanism for user and role data.
+                .AddEntityFrameworkStores<BookStoreContext>()
+                //AddDefaultTokenProviders is a method in ASP.NET Core that adds the default token
+                //providers to the authentication middleware. Token providers are responsible for
+                //generating and validating security tokens used in authentication and authorization scenarios.
+                .AddDefaultTokenProviders();
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
